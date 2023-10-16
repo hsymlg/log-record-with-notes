@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 
 @Data
+//参数配置在 application.properties 或 application.yml 文件中,可以获取到；prefix通过指定的前缀，绑定配置文件中的配置
 @ConfigurationProperties(prefix = "log-record")
 public class LogRecordProperties {
 

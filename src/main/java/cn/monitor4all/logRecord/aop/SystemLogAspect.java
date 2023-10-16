@@ -47,6 +47,7 @@ public class SystemLogAspect {
     private LogRecordProperties logRecordProperties;
 
     @Autowired(required = false)
+    //表示忽略当前要注入的bean，如果有直接注入，没有跳过，不会报错。
     private LogRecordThreadPool logRecordThreadPool;
 
     @Autowired(required = false)
@@ -167,6 +168,12 @@ public class SystemLogAspect {
                 Consumer<LogDTO> createLogFunction = logDTO -> createLog(logDTO, finalExecutionTime);
                 if (logRecordThreadPool != null) {
                     logDTOList.forEach(logDTO -> {
+                        //消费型接口: Consumer< T> void accept(T t)有参数，无返回值的抽象方法
+                        //Runnable runnable = new Runnable(){
+                        //    public void run(){
+                        //        createLogFunction.accept(logDTO)
+                        //    }
+                        //};
                         Runnable task = () -> createLogFunction.accept(logDTO);
                         Runnable ttlRunnable = TtlRunnable.get(task);
                         logRecordThreadPool.getLogRecordPoolExecutor().execute(ttlRunnable);
