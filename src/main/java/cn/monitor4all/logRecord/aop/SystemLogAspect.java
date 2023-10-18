@@ -66,6 +66,7 @@ public class SystemLogAspect {
 
     private final DefaultParameterNameDiscoverer discoverer = new DefaultParameterNameDiscoverer();
 
+    //@Around用于定义环绕通知，相当于MethodInterceptor。在使用时需要指定一个value属性，该属性用于指定该通知被植入的切入点。
     @Around("@annotation(cn.monitor4all.logRecord.annotation.OperationLog) || @annotation(cn.monitor4all.logRecord.annotation.OperationLogs)")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         Object result;
@@ -179,6 +180,7 @@ public class SystemLogAspect {
                         logRecordThreadPool.getLogRecordPoolExecutor().execute(ttlRunnable);
                     });
                 } else {
+                    //log-record.thread-pool.enabled没有配置线程池，就串行
                     logDTOList.forEach(createLogFunction);
                 }
                 // 清除Context：每次方法执行一次
