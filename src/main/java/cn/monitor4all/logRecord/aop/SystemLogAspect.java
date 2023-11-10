@@ -120,7 +120,7 @@ public class SystemLogAspect {
                         }
                     }
                 }
-                // 写入成功执行后日志
+                // 写入成功执行后日志(注意，list只是创建对象的应用，下面修改对象，列表里面的对象也会进行修改)
                 logDTOList = new ArrayList<>(logDtoMap.values());
                 logDtoMap.forEach((annotation, logDTO) -> {
                     // 若自定义成功失败，则logDTO.getSuccess非null
